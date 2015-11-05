@@ -40,11 +40,11 @@ example.controller("ExampleController", function($scope){
   $scope.getPeople = function(params) {
     var PeopleObject = Parse.Object.extend("PeopleObject");
     var query = new Parse.Query(PeopleObject);
-    if(params != undefined) {
-      if (query.lastname != undefined) {
+    if(params !== undefined) {
+      if(params.lastname !== undefined) {
         query.equalTo("lastname", params.lastname);
       } 
-      if (params != undefined) {
+      if(params.firstname !== undefined) {
         query.equalTo("firstname", params.firstname);
       }
     }
