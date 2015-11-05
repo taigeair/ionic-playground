@@ -4,9 +4,12 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
 
-.run(function($ionicPlatform) {
+//angular.module('starter', ['ionic', 'starter.controllers'])
+
+var example = angular.module('starter', ['ionic']);
+
+example.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,9 +22,49 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-  });
-})
 
+    Parse.initialize("6tM6T2do7666kzzrlPzRzQsXJ8hlttnSWyiEyEPW", "clYaSTv8vPeTigDagB9ioZSyAYkdBZqhiHoj74wC");
+
+  });
+});
+
+example.controller("ExampleController", function($scope){
+  $scope.savePerson = function(firstname,lastname) {
+    var PeopleObject = Parse.Object.extend("PeopleObject");
+    var person = new PeopleObject();
+    person.set("firstname",firstname);
+    person.set("lastname", lastname);
+    person.save(null, {});
+  }
+
+  $scope.getPeople = function(params) {
+    var PeopleObject = Parse.Object.extend("PeopleObject");
+    var query = new Parse.Query(PeopleObject);
+    if(params != undefined) {
+      if (query.lastname != undefined) {
+        query.equalTo("lastname", params.lastname);
+      } 
+      if (params != undefined) {
+        query.equalTo("firstname", params.firstname);
+      }
+    }
+    query.find({
+      success: function(results) {
+        alert("Successfully returned " + results.length + " people!");
+        for (var i = 0; i < results.length; i++){
+          var object = results[i];
+          console.log(object.id + " - " + object.get("firstname") + " " + object.get("lastname"));
+        }
+      }, 
+      error: function(error){
+        alert ("Error: "+ error.code + " " + error.message);
+      }
+   });
+
+  }
+});
+
+/*
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -67,7 +110,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'PlaylistCtrl'
       }
     }
+
+
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/playlists');
 });
+
+*/

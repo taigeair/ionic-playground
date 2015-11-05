@@ -1,5 +1,11 @@
 <ion-view view-title="Browse">
   <ion-content>
     <h1>Browse</h1>
+    <button class="button" ng-click="savePerson('Nic', 'Rabbit')">Save Rabbit</button>
+    <button class="button" ng-click="savePerson('Al', 'Rabbit')">Save Rabbit</button>
+    <button class="button" ng-click="savePerson('Maria','Cat')">Save Cat</button>
+    <button class="button" ng-click="getPeople()">Get People</button>
+    <button class="button" ng-click="getPeople({lastname:'Rabbit'})">Print all rabbit</button>
+
   </ion-content>
 </ion-view>
